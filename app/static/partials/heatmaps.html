@@ -1,0 +1,141 @@
+<style>
+	body {
+		background-color:#1F2223;
+	}
+	select {display:block!important;}
+	.heatmap-container {
+		width:30vw;
+		height:30vw;
+		position:absolute;
+		margin:auto;
+		font-size:0;
+	}
+	.heatmap-container.left {
+		left:0;
+		right:50%;
+	}
+	.heatmap-container.right {
+		left:50%;
+		right:0;
+	}
+	.heatmap-inner-container {
+		height:20%;
+		width:100%;
+	}
+	.heatmap-unit {
+		height:84%;
+		width:16%;
+		margin:2%;
+		background-color:grey;
+		display:inline-block;
+		transition: all 0.5s ease;
+	}
+	.heatmap-unit:hover {
+		//opacity:0.6;
+		transition: all 0.2s cubic-bezier(0.25, 0.1, 0.41, 1.24);
+		margin:0.5%;
+		height:96%;
+		width:19%;
+	}
+.hero-container {
+  position: absolute;
+  left: calc(50% - 200px);
+	z-index:-1;
+	pointer-events:none;
+  bottom: -600px;
+	transition:all 0.4s ease;
+}
+.hero-container > img {
+	height:550px;
+}
+.hero-container.active {
+	bottom:0;
+	transition: all 0.4s all 0.4s cubic-bezier(0.25, 0.1, 0.41, 1.24);
+}
+.app-message {
+	background-color:whitesmoke;
+	top:50px;
+	right:10px;
+	position:absolute;
+	font-size:1.2em;
+	padding:10px;
+	border-radius:5px;
+}
+
+/* AutoComplete */
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+.loader {
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	width:100%;
+	height:100%;
+	background-color:whitesmoke;
+	opacity:0.7;
+}
+.loader img {
+	height: 59px;
+	width: 59px;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	margin:auto;
+}
+</style>
+	<div ng-show="loading" class="loader">
+		<img src="./static/img/tennis_ball.png"/>
+	</div>
+    <select ng-model="selected_player" ng-change="getData(selected_player)">
+      <option value="" disabled selected>Choose a player</option>
+      <option ng-repeat="option in players.data" >{{option}}</option>
+    </select>
+    <label>Player Select</label>
+		<input  placeholder="Search for a Name"
+						autofocus
+						type="text"
+						ng-model="currentName"
+						id="autocomplete_tennis_player"/>
+
+
+		<!--{{data}}-->
+
+<div ng-show="false" id="container" style="height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"></div>
+
+<div class="app-message animated bounceIn" ng-show="message">
+	{{message}}
+</div>
+
+<div class="heatmap-container left">
+	<div ng-repeat="rows in heatmap_grid track by $index" class="heatmap-inner-container">
+		<div ng-repeat="columns in rows track by $index"
+		class="heatmap-unit"
+		ng-mouseover="mouseOver(columns)"
+		ng-mouseleave="mouseOver()"
+		style="opacity:{{columns}}">
+		</div>
+	</div>
+</div>
+<div class="heatmap-container right">
+	<div ng-repeat="rows in heatmap_grid track by $index" class="heatmap-inner-container">
+		<div ng-repeat="columns in rows track by $index"
+		class="heatmap-unit"
+		style="opacity:{{columns}}"
+		ng-mouseover="mouseOver(columns)"
+		ng-mouseleave="mouseOver()">
+		</div>
+	</div>
+</div>
+
+<div class="hero-container" ng-class="{active: data}">
+	<img src="http://www.atpworldtour.com/~/media/tennis/players/gladiator/compressed/monfils-full_14.png"/>
+</div>

@@ -1,0 +1,34 @@
+<style>
+	.select-wrapper {display:inline-block;}
+	h5 {text-align:center;}
+	input {text-align:center;}
+</style>
+
+
+<h5>Stats for
+	<input ng-model="search_player"/> <br/>compared against the top
+	<select ng-model="top_n_val" id="select_topn">
+		<option value="" disabled selected>Choose your option</option>
+		<option value="5">5</option>
+		<option value="10">10</option>
+		<option value="20">20</option>
+	</select>
+	players, <br/>when {{search_player}} is
+	<select ng-model="server_returner" id="select_ser_ret">
+		<option value="" disabled selected>Choose your option</option>
+		<option value="server">Serving</option>
+		<option value="returner">Returning</option>
+	</select>
+</h5>
+<button ng-click="svg_loaded(search_player)">Search</button>
+<div id="network-container">
+</div>
+
+<div class="hover-message">
+	{{hover_message}}
+</div>
+
+DEBUG:
+{{top_n_val}}
+<br/>
+{{player_data}}
